@@ -178,7 +178,7 @@ class ServerHandler(BaseHTTPRequestHandler):
     def serverEndPoint(self, query):
         try:
             request = self.server.openid.decodeRequest(query)
-        except server.ProtocolError, why:
+        except server.ProtocolError as why:
             self.displayResponse(why)
             return
 
@@ -226,7 +226,7 @@ class ServerHandler(BaseHTTPRequestHandler):
     def displayResponse(self, response):
         try:
             webresponse = self.server.openid.encodeResponse(response)
-        except server.EncodingError, why:
+        except server.EncodingError as why:
             text = why.response.encodeToKVForm()
             self.showErrorPage('<pre>%s</pre>' % cgi.escape(text))
             return
@@ -336,7 +336,7 @@ class ServerHandler(BaseHTTPRequestHandler):
         id_url_base = self.server.base_url+'id/'
         # XXX: This may break if there are any synonyms for id_url_base,
         # such as referring to it by IP address or a CNAME.
-        assert (request.identity.startswith(id_url_base) or 
+        assert (request.identity.startswith(id_url_base) or
                 request.idSelect()), repr((request.identity, id_url_base))
         expected_user = request.identity[len(id_url_base):]
 
@@ -682,8 +682,8 @@ def main(host, port, data_path):
 
     httpserver.setOpenIDServer(oidserver)
 
-    print 'Server running at:'
-    print httpserver.base_url
+    print('Server running at:')
+    print(httpserver.base_url)
     httpserver.serve_forever()
 
 if __name__ == '__main__':

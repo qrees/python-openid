@@ -94,7 +94,7 @@ ns_uri = ns_uri_1_1
 
 try:
     registerNamespaceAlias(ns_uri_1_1, 'sreg')
-except NamespaceAliasRegistrationError, e:
+except NamespaceAliasRegistrationError as e:
     logging.exception('registerNamespaceAlias(%r, %r) failed: %s' % (ns_uri_1_1,
                                                                'sreg', str(e),))
 
@@ -156,7 +156,7 @@ def getSRegNS(message):
         sreg_ns_uri = ns_uri_1_1
         try:
             message.namespaces.addAlias(ns_uri_1_1, 'sreg')
-        except KeyError, why:
+        except KeyError as why:
             # An alias for the string 'sreg' already exists, but it's
             # defined for something other than simple registration
             raise SRegNamespaceError(why[0])

@@ -42,7 +42,7 @@ class BaseAssocTest(CatchLogs, unittest.TestCase):
     def failUnlessProtocolError(self, str_prefix, func, *args, **kwargs):
         try:
             result = func(*args, **kwargs)
-        except ProtocolError, e:
+        except ProtocolError as e:
             message = 'Expected prefix %r, got %r' % (str_prefix, e[0])
             self.failUnless(e[0].startswith(str_prefix), message)
         else:

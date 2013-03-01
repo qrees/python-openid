@@ -67,7 +67,7 @@ def startOpenID(request):
 
         try:
             auth_request = c.begin(openid_url)
-        except DiscoveryFailure, e:
+        except DiscoveryFailure as e:
             # Some other protocol-level failure occurred.
             error = "OpenID discovery error: %s" % (str(e),)
 

@@ -36,10 +36,10 @@ if __name__ == "__main__":
         print "Running discovery on", user_input
         try:
             normalized, services = discover(user_input)
-        except DiscoveryFailure, why:
+        except DiscoveryFailure as why:
             print "Discovery failed:", why
             print
-        except HTTPFetchingError, why:
+        except HTTPFetchingError as why:
             print "HTTP request failed:", why
             print
         else:

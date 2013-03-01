@@ -268,7 +268,7 @@ def test_mysql():
         # Change this connect line to use the right user and password
         try:
             conn = MySQLdb.connect(user=db_user, passwd=db_passwd, host = db_host)
-        except MySQLdb.OperationalError, why:
+        except MySQLdb.OperationalError as why:
             if why[0] == 2005:
                 print ('Skipping MySQL store test (cannot connect '
                        'to test server on host %r)' % (db_host,))

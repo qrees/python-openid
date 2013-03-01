@@ -55,7 +55,7 @@ def test_fetcher(fetcher, exc, server):
         except (SystemExit, KeyboardInterrupt):
             pass
         except:
-            print fetcher, fetch_url
+            print(fetcher, fetch_url)
             raise
         else:
             failUnlessResponseExpected(expected, actual)
@@ -68,12 +68,12 @@ def test_fetcher(fetcher, exc, server):
             result = fetcher.fetch(err_url)
         except (KeyboardInterrupt, SystemExit):
             raise
-        except fetchers.HTTPError, why:
+        except fetchers.HTTPError as why:
             # This is raised by the Curl fetcher for bad cases
             # detected by the fetchers module, but it's a subclass of
             # HTTPFetchingError, so we have to catch it explicitly.
             assert exc
-        except fetchers.HTTPFetchingError, why:
+        except fetchers.HTTPFetchingError as why:
             assert not exc, (fetcher, exc, server)
         except:
             assert exc
@@ -89,7 +89,7 @@ def run_fetcher_tests(server):
         ]:
         try:
             exc_fetchers.append(klass())
-        except RuntimeError, why:
+        except RuntimeError as why:
             if why[0].startswith('Cannot find %s library' % (library_name,)):
                 try:
                     __import__(library_name)

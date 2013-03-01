@@ -101,12 +101,10 @@ def registerNamespaceAlias(namespace_uri, alias):
         return
 
     if namespace_uri in registered_aliases.values():
-        raise NamespaceAliasRegistrationError, \
-              'Namespace uri %r already registered' % (namespace_uri,)
+        raise NamespaceAliasRegistrationError('Namespace uri %r already registered' % (namespace_uri,))
 
     if alias in registered_aliases:
-        raise NamespaceAliasRegistrationError, \
-              'Alias %r already registered' % (alias,)
+        raise NamespaceAliasRegistrationError('Alias %r already registered' % (alias,))
 
     registered_aliases[alias] = namespace_uri
 

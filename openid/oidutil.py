@@ -8,11 +8,12 @@ interesting.
 __all__ = ['log', 'appendArgs', 'toBase64', 'fromBase64', 'autoSubmitHTML', 'toUnicode']
 
 import binascii
-import sys
-import urlparse
 import logging
 
-from urllib import urlencode
+try:
+    from urllib.parse import urlencode
+except ImportError:
+    from urllib import urlencode
 
 elementtree_modules = [
     'lxml.etree',
@@ -164,7 +165,7 @@ def toBase64(s):
 def fromBase64(s):
     try:
         return binascii.a2b_base64(s)
-    except binascii.Error, why:
+    except binascii.Error as why:
         # Convert to a common exception type
         raise ValueError(why[0])
 
@@ -185,6 +186,6 @@ class Symbol(object):
 
     def __hash__(self):
         return hash((self.__class__, self.name))
-   
+
     def __repr__(self):
         return '<Symbol %s>' % (self.name,)

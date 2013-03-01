@@ -180,11 +180,11 @@ def findHTMLMeta(stream):
         chunks.append(chunk)
         try:
             parser.feed(chunk)
-        except HTMLParseError, why:
+        except HTMLParseError as why:
             # HTML parse error, so bail
             chunks.append(stream.read())
             break
-        except ParseDone, why:
+        except ParseDone as why:
             uri = why[0]
             if uri is None:
                 # Parse finished, but we may need the rest of the file

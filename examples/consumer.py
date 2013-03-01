@@ -171,7 +171,7 @@ class OpenIDRequestHandler(BaseHTTPRequestHandler):
         oidconsumer = self.getConsumer(stateless = use_stateless)
         try:
             request = oidconsumer.begin(openid_url)
-        except consumer.DiscoveryFailure, exc:
+        except consumer.DiscoveryFailure as exc:
             fetch_error_string = 'Error in discovery: %s' % (
                 cgi.escape(str(exc[0])))
             self.render(fetch_error_string,
@@ -464,8 +464,8 @@ def main(host, port, data_path, weak_ssl=False):
     addr = (host, port)
     server = OpenIDHTTPServer(store, addr, OpenIDRequestHandler)
 
-    print 'Server running at:'
-    print server.base_url
+    print('Server running at:')
+    print(server.base_url)
     server.serve_forever()
 
 if __name__ == '__main__':

@@ -1,5 +1,4 @@
 import unittest
-import types
 
 class DataDrivenTestCase(unittest.TestCase):
     cases = []
@@ -37,7 +36,7 @@ def loadTests(module_name):
     tests = []
     for name in dir(this_module):
         obj = getattr(this_module, name)
-        if (isinstance(obj, (type, types.ClassType)) and
+        if (isinstance(obj, type) and
             issubclass(obj, unittest.TestCase)):
             if hasattr(obj, 'loadTests'):
                 tests.extend(obj.loadTests())

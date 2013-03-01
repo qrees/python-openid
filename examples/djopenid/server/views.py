@@ -110,7 +110,7 @@ def endpoint(request):
     # library can use.
     try:
         openid_request = s.decodeRequest(query)
-    except ProtocolError, why:
+    except ProtocolError as why:
         # This means the incoming request was invalid.
         return direct_to_template(
             request,
@@ -189,9 +189,9 @@ def showDecidePage(request, openid_request):
         # Stringify because template's ifequal can only compare to strings.
         trust_root_valid = verifyReturnTo(trust_root, return_to) \
                            and "Valid" or "Invalid"
-    except DiscoveryFailure, err:
+    except DiscoveryFailure as err:
         trust_root_valid = "DISCOVERY_FAILED"
-    except HTTPFetchingError, err:
+    except HTTPFetchingError as err:
         trust_root_valid = "Unreachable"
 
     pape_request = pape.Request.fromOpenIDRequest(openid_request)
@@ -261,7 +261,7 @@ def displayResponse(request, openid_response):
     # Encode the response into something that is renderable.
     try:
         webresponse = s.encodeResponse(openid_response)
-    except EncodingError, why:
+    except EncodingError as why:
         # If it couldn't be encoded, display an error.
         text = why.response.encodeToKVForm()
         return direct_to_template(

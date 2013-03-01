@@ -17,7 +17,7 @@ class _TestCase(unittest.TestCase):
         p = YadisHTMLParser()
 	try:
             p.feed(self.case)
-        except ParseDone, why:
+        except ParseDone as why:
             found = why[0]
 
             # make sure we protect outselves against accidental bogus

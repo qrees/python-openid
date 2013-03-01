@@ -15,7 +15,7 @@ class UrinormTest(unittest.TestCase):
     def runTest(self):
         try:
             actual = openid.urinorm.urinorm(self.case)
-        except ValueError, why:
+        except ValueError as why:
             self.assertEqual(self.expected, 'fail', why)
         else:
             self.assertEqual(actual, self.expected)

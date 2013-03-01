@@ -17,7 +17,7 @@ class DiscoveryVerificationTest(OpenIDTestMixin, TestIdRes):
     def failUnlessProtocolError(self, prefix, callable, *args, **kwargs):
         try:
             result = callable(*args, **kwargs)
-        except consumer.ProtocolError, e:
+        except consumer.ProtocolError as e:
             self.failUnless(
                 e[0].startswith(prefix),
                 'Expected message prefix %r, got message %r' % (prefix, e[0]))
@@ -149,7 +149,7 @@ class DiscoveryVerificationTest(OpenIDTestMixin, TestIdRes):
 
         try:
             r = self.consumer._verifyDiscoveryResults(msg, endpoint)
-        except consumer.ProtocolError, e:
+        except consumer.ProtocolError as e:
             # Should we make more ProtocolError subclasses?
             self.failUnless(str(e), text)
         else:
@@ -212,13 +212,13 @@ class DiscoveryVerificationTest(OpenIDTestMixin, TestIdRes):
              'claimed_id': claimed_id_frag,
              'op_endpoint': endpoint.server_url})
         result = self.consumer._verifyDiscoveryResults(msg, endpoint)
-        
+
         self.failUnlessEqual(result.local_id, endpoint.local_id)
         self.failUnlessEqual(result.server_url, endpoint.server_url)
         self.failUnlessEqual(result.type_uris, endpoint.type_uris)
 
         self.failUnlessEqual(result.claimed_id, claimed_id_frag)
-        
+
         self.failUnlessLogEmpty()
 
     def test_openid1Fallback1_0(self):

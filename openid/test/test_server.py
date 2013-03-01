@@ -169,7 +169,7 @@ class TestDecode(unittest.TestCase):
             }
         try:
             result = self.decode(args)
-        except TypeError, err:
+        except TypeError as err:
             self.failUnless(str(err).find('values') != -1, err)
         else:
             self.fail("Expected TypeError, but got result %s" % (result,))
@@ -309,7 +309,7 @@ class TestDecode(unittest.TestCase):
             }
         try:
             result = self.decode(args)
-        except server.ProtocolError, err:
+        except server.ProtocolError as err:
             self.failUnless(err.openid_message)
         else:
             self.fail("Expected ProtocolError, instead returned with %s" %
@@ -325,7 +325,7 @@ class TestDecode(unittest.TestCase):
             }
         try:
             result = self.decode(args)
-        except server.UntrustedReturnURL, err:
+        except server.UntrustedReturnURL as err:
             self.failUnless(err.openid_message)
         else:
             self.fail("Expected UntrustedReturnURL, instead returned with %s" %
@@ -497,7 +497,7 @@ class TestDecode(unittest.TestCase):
 
         try:
             r = self.decode(args)
-        except server.ProtocolError, err:
+        except server.ProtocolError as err:
             # Assert that the ProtocolError does have a Message attached
             # to it, even though the request wasn't a well-formed Message.
             self.failUnless(err.openid_message)
@@ -879,7 +879,7 @@ class TestCheckID(unittest.TestCase):
         self.request.message = sentinel
         try:
             result = self.request.trustRootValid()
-        except server.MalformedTrustRoot, why:
+        except server.MalformedTrustRoot as why:
             self.failUnless(sentinel is why.openid_message)
         else:
             self.fail('Expected MalformedTrustRoot exception. Got %r'
@@ -917,7 +917,7 @@ class TestCheckID(unittest.TestCase):
 
         try:
             withVerifyReturnTo(vrfyExc, self.request.returnToVerified)
-        except Exception, e:
+        except Exception as e:
             self.failUnless(e is sentinel, e)
 
         # Ensure that True and False are passed through unchanged

@@ -44,4 +44,4 @@ for input_line in f:
         output_line = new_output_line
     prefix = separator
 
-print output_line + suffix
+print(output_line + suffix)

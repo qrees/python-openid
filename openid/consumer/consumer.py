@@ -343,7 +343,7 @@ class Consumer(object):
         disco = Discovery(self.session, user_url, self.session_key_prefix)
         try:
             service = disco.getNextService(self._discover)
-        except fetchers.HTTPFetchingError, why:
+        except fetchers.HTTPFetchingError as why:
             raise DiscoveryFailure(
                 'Error fetching XRDS document: %s' % (why[0],), None)
 
@@ -379,7 +379,7 @@ class Consumer(object):
 
         try:
             auth_req.setAnonymous(anonymous)
-        except ValueError, why:
+        except ValueError as why:
             raise ProtocolError(str(why))
 
         return auth_req
@@ -640,12 +640,12 @@ class GenericConsumer(object):
     def _complete_id_res(self, message, endpoint, return_to):
         try:
             self._checkSetupNeeded(message)
-        except SetupNeededError, why:
+        except SetupNeededError as why:
             return SetupNeededResponse(endpoint, why.user_setup_url)
         else:
             try:
                 return self._doIdRes(message, endpoint, return_to)
-            except (ProtocolError, DiscoveryFailure), why:
+            except (ProtocolError, DiscoveryFailure) as why:
                 return FailureResponse(endpoint, why[0])
 
     def _completeInvalid(self, message, endpoint, _):
@@ -662,7 +662,7 @@ class GenericConsumer(object):
         # message.
         try:
             self._verifyReturnToArgs(message.toPostArgs())
-        except ProtocolError, why:
+        except ProtocolError as why:
             logging.exception("Verifying return_to arguments: %s" % (why[0],))
             return False
 
@@ -769,7 +769,7 @@ class GenericConsumer(object):
 
         try:
             timestamp, salt = splitNonce(nonce)
-        except ValueError, why:
+        except ValueError as why:
             raise ProtocolError('Malformed nonce: %s' % (why[0],))
 
         if (self.store is not None and
@@ -931,7 +931,7 @@ class GenericConsumer(object):
             # case.
             try:
                 self._verifyDiscoverySingle(endpoint, to_match)
-            except ProtocolError, e:
+            except ProtocolError as e:
                 logging.exception(
                     "Error attempting to use stored discovery information: " +
                     str(e))
@@ -976,7 +976,7 @@ class GenericConsumer(object):
                     self._verifyDiscoverySingle(endpoint, to_match)
                 except TypeURIMismatch:
                     self._verifyDiscoverySingle(endpoint, to_match_1_0)
-            except ProtocolError, e:
+            except ProtocolError as e:
                 logging.exception("Error attempting to use stored discovery information: " +
                             str(e))
                 logging.info("Attempting discovery to verify endpoint")
@@ -1069,7 +1069,7 @@ class GenericConsumer(object):
                 try:
                     self._verifyDiscoverySingle(
                         endpoint, to_match_endpoint)
-                except ProtocolError, why:
+                except ProtocolError as why:
                     failure_messages.append(str(why))
                 else:
                     # It matches, so discover verification has
@@ -1097,7 +1097,7 @@ class GenericConsumer(object):
             return False
         try:
             response = self._makeKVPost(request, server_url)
-        except (fetchers.HTTPFetchingError, ServerError), e:
+        except (fetchers.HTTPFetchingError, ServerError) as e:
             logging.exception('check_authentication failed: %s' % (e[0],))
             return False
         else:
@@ -1179,7 +1179,7 @@ class GenericConsumer(object):
         try:
             assoc = self._requestAssociation(
                 endpoint, assoc_type, session_type)
-        except ServerError, why:
+        except ServerError as why:
             supportedTypes = self._extractSupportedAssociationType(why,
                                                                    endpoint,
                                                                    assoc_type)
@@ -1191,7 +1191,7 @@ class GenericConsumer(object):
                 try:
                     assoc = self._requestAssociation(
                         endpoint, assoc_type, session_type)
-                except ServerError, why:
+                except ServerError as why:
                     # Do not keep trying, since it rejected the
                     # association type that it told us to use.
                     logging.error('Server %s refused its suggested association '
@@ -1261,17 +1261,17 @@ class GenericConsumer(object):
 
         try:
             response = self._makeKVPost(args, endpoint.server_url)
-        except fetchers.HTTPFetchingError, why:
+        except fetchers.HTTPFetchingError as why:
             logging.exception('openid.associate request failed: %s' % (why[0],))
             return None
 
         try:
             assoc = self._extractAssociation(response, assoc_session)
-        except KeyError, why:
+        except KeyError as why:
             logging.exception('Missing required parameter in response from %s: %s'
                         % (endpoint.server_url, why[0]))
             return None
-        except ProtocolError, why:
+        except ProtocolError as why:
             logging.exception('Protocol error parsing response from %s: %s' % (
                 endpoint.server_url, why[0]))
             return None
@@ -1394,7 +1394,7 @@ class GenericConsumer(object):
             OPENID_NS, 'expires_in', no_default)
         try:
             expires_in = int(expires_in_str)
-        except ValueError, why:
+        except ValueError as why:
             raise ProtocolError('Invalid expires_in field: %s' % (why[0],))
 
         # OpenID 1 has funny association session behaviour.
@@ -1432,7 +1432,7 @@ class GenericConsumer(object):
         # type.
         try:
             secret = assoc_session.extractSecret(assoc_response)
-        except ValueError, why:
+        except ValueError as why:
             fmt = 'Malformed response for %s session: %s'
             raise ProtocolError(fmt % (assoc_session.session_type, why[0]))
 
@@ -1669,9 +1669,9 @@ class AuthRequest(object):
 
         @returns: str
         """
-        return oidutil.autoSubmitHTML(self.formMarkup(realm, 
+        return oidutil.autoSubmitHTML(self.formMarkup(realm,
                                                       return_to,
-                                                      immediate, 
+                                                      immediate,
                                                       form_tag_attrs))
 
     def shouldSendRedirect(self):

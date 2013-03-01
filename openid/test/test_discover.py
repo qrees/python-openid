@@ -51,7 +51,7 @@ class TestDiscoveryFailure(datadriven.DataDrivenTestCase):
         expected_status = self.responses[-1].status
         try:
             discover.discover(self.url)
-        except DiscoveryFailure, why:
+        except DiscoveryFailure as why:
             self.failUnlessEqual(why.http_response.status, expected_status)
         else:
             self.fail('Did not raise DiscoveryFailure')
@@ -129,7 +129,7 @@ class TestNormalization(unittest.TestCase):
 
         try:
             discover.discover('users.stompy.janrain.com:8000/x')
-        except DiscoveryFailure, why:
+        except DiscoveryFailure as why:
             self.fail('failed to parse url with port correctly')
         except RuntimeError:
             pass #expected

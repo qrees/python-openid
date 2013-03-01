@@ -304,7 +304,7 @@ class FetchRequest(AXMessage):
         self = cls()
         try:
             self.parseExtensionArgs(ax_args)
-        except NotAXMessage, err:
+        except NotAXMessage as err:
             return None
 
         if self.update_url:
@@ -709,7 +709,7 @@ class FetchResponse(AXKeyValueMessage):
 
         try:
             self.parseExtensionArgs(ax_args)
-        except NotAXMessage, err:
+        except NotAXMessage as err:
             return None
         else:
             return self

@@ -70,7 +70,7 @@ def getOpenIDStore(filestore_path, table_prefix):
 
     try:
         s.createTables()
-    except (SystemExit, KeyboardInterrupt, MemoryError), e:
+    except (SystemExit, KeyboardInterrupt, MemoryError) as e:
         raise
     except:
         # XXX This is not the Right Way to do this, but because the

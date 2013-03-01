@@ -209,7 +209,7 @@ class Urllib2Fetcher(HTTPFetcher):
                 return self._makeResponse(f)
             finally:
                 f.close()
-        except urllib2.HTTPError, why:
+        except urllib2.HTTPError as why:
             try:
                 return self._makeResponse(why)
             finally:
