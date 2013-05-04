@@ -12,9 +12,9 @@ if 'sdist' in sys.argv:
 version = '[library version:2.2.5]'[17:-1]
 
 setup(
-    name='python-openid',
+    name='python-openid3',
     version=version,
-    description='OpenID support for servers and consumers.',
+    description='OpenID support for servers and consumers. Python 3 support fork.',
     long_description='''This is a set of Python packages to support use of
 the OpenID decentralized identity system in your application.  Want to enable
 single sign-on for your web site?  Use the openid.consumer package.  Want to
@@ -35,7 +35,7 @@ and support for a variety of storage back-ends.''',
     author_email='openid@janrain.com',
     download_url='http://github.com/openid/python-openid/tarball/%s' % (version,),
     classifiers=[
-    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 4 - Beta",
     "Environment :: Web Environment",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: Apache Software License",
