@@ -139,11 +139,11 @@ class SQLStore(OpenIDStore):
         # Currently the strings in our tables just have ascii in them,
         # so this ought to be safe.
         def unicode_to_str(arg):
-            if isinstance(arg, unicode):
+            if isinstance(arg, str):
                 return str(arg)
             else:
                 return arg
-        str_args = map(unicode_to_str, args)
+        str_args = list(map(unicode_to_str, args))
         self.cur.execute(sql, str_args)
 
     def __getattr__(self, attr):

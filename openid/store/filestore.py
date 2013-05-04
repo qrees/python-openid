@@ -25,7 +25,7 @@ except ImportError:
         for _ in range(5):
             name = os.tempnam(dir)
             try:
-                fd = os.open(name, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0600)
+                fd = os.open(name, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
             except OSError as why:
                 if why.errno != EEXIST:
                     raise
@@ -351,7 +351,7 @@ class FileOpenIDStore(OpenIDStore):
 
         filename = os.path.join(self.nonce_dir, filename)
         try:
-            fd = os.open(filename, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0200)
+            fd = os.open(filename, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o200)
         except OSError as why:
             if why.errno == EEXIST:
                 return False
@@ -364,9 +364,7 @@ class FileOpenIDStore(OpenIDStore):
     def _allAssocs(self):
         all_associations = []
 
-        association_filenames = map(
-            lambda filename: os.path.join(self.association_dir, filename),
-            os.listdir(self.association_dir))
+        association_filenames = [os.path.join(self.association_dir, filename) for filename in os.listdir(self.association_dir)]
         for association_filename in association_filenames:
             try:
                 association_file = file(association_filename, 'rb')

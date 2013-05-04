@@ -1,5 +1,5 @@
 from openid.yadis.parsehtml import YadisHTMLParser, ParseDone
-from HTMLParser import HTMLParseError
+from html.parser import HTMLParseError
 
 import os.path, unittest, sys
 

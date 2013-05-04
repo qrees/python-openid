@@ -1,4 +1,4 @@
-import urlparse
+import urllib.parse
 import cgi
 import time
 import warnings
@@ -26,7 +26,7 @@ from openid.fetchers import HTTPResponse, HTTPFetchingError
 from openid import fetchers
 from openid.store import memstore
 
-from support import CatchLogs
+from .support import CatchLogs
 
 assocs = [
     ('another 20-byte key.', 'Snarky'),
@@ -36,13 +36,13 @@ assocs = [
 def mkSuccess(endpoint, q):
     """Convenience function to create a SuccessResponse with the given
     arguments, all signed."""
-    signed_list = ['openid.' + k for k in q.keys()]
+    signed_list = ['openid.' + k for k in list(q.keys())]
     return SuccessResponse(endpoint, Message.fromOpenIDArgs(q), signed_list)
 
 def parseQuery(qs):
     q = {}
     for (k, v) in cgi.parse_qsl(qs):
-        assert not q.has_key(k)
+        assert k not in q
         q[k] = v
     return q
 
@@ -91,7 +91,8 @@ class GoodAssocStore(memstore.MemoryStore):
 
 
 class TestFetcher(object):
-    def __init__(self, user_url, user_page, (assoc_secret, assoc_handle)):
+    def __init__(self, user_url, user_page, xxx_todo_changeme):
+        (assoc_secret, assoc_handle) = xxx_todo_changeme
         self.get_responses = {user_url:self.response(user_url, 200, user_page)}
         self.assoc_secret = assoc_secret
         self.assoc_handle = assoc_handle
@@ -158,7 +159,7 @@ def _test_success(server_url, user_url, delegate_url, links, immediate=False):
 
         redirect_url = request.redirectURL(trust_root, return_to, immediate)
 
-        parsed = urlparse.urlparse(redirect_url)
+        parsed = urllib.parse.urlparse(redirect_url)
         qs = parsed[4]
         q = parseQuery(qs)
         new_return_to = q['openid.return_to']
@@ -173,7 +174,7 @@ def _test_success(server_url, user_url, delegate_url, links, immediate=False):
         assert new_return_to.startswith(return_to)
         assert redirect_url.startswith(server_url)
 
-        parsed = urlparse.urlparse(new_return_to)
+        parsed = urllib.parse.urlparse(new_return_to)
         query = parseQuery(parsed[4])
         query.update({
             'openid.mode':'id_res',

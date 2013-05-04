@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import unittest
-import datadriven
+from . import datadriven
 import os.path
 from openid import fetchers
 from openid.fetchers import HTTPResponse
@@ -9,7 +9,7 @@ from openid.yadis.discover import DiscoveryFailure
 from openid.consumer import discover
 from openid.yadis import xrires
 from openid.yadis.xri import XRI
-from urlparse import urlsplit
+from urllib.parse import urlsplit
 from openid import message
 
 ### Tests for conditions that trigger DiscoveryFailure

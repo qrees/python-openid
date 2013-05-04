@@ -270,8 +270,8 @@ def test_mysql():
             conn = MySQLdb.connect(user=db_user, passwd=db_passwd, host = db_host)
         except MySQLdb.OperationalError as why:
             if why[0] == 2005:
-                print ('Skipping MySQL store test (cannot connect '
-                       'to test server on host %r)' % (db_host,))
+                print(('Skipping MySQL store test (cannot connect '
+                       'to test server on host %r)' % (db_host,)))
                 return
             else:
                 raise
@@ -382,7 +382,7 @@ test_functions = [
     ]
 
 def pyUnitTests():
-    tests = map(unittest.FunctionTestCase, test_functions)
+    tests = list(map(unittest.FunctionTestCase, test_functions))
     load = unittest.defaultTestLoader.loadTestsFromTestCase
     return unittest.TestSuite(tests)
 

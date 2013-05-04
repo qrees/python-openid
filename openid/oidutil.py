@@ -13,7 +13,7 @@ import logging
 try:
     from urllib.parse import urlencode
 except ImportError:
-    from urllib import urlencode
+    from urllib.parse import urlencode
 
 elementtree_modules = [
     'lxml.etree',
@@ -33,7 +33,7 @@ def toUnicode(value):
     """
     if isinstance(value, str):
         return value.decode('utf-8')
-    return unicode(value)
+    return str(value)
 
 def autoSubmitHTML(form, title='OpenID transaction in progress'):
     return """
@@ -130,7 +130,7 @@ def appendArgs(url, args):
     @rtype: str
     """
     if hasattr(args, 'items'):
-        args = args.items()
+        args = list(args.items())
         args.sort()
     else:
         args = list(args)

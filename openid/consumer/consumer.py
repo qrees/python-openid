@@ -190,7 +190,7 @@ USING THIS LIBRARY
 import cgi
 import copy
 import logging
-from urlparse import urlparse, urldefrag
+from urllib.parse import urlparse, urldefrag
 
 from openid import fetchers
 
@@ -868,7 +868,7 @@ class GenericConsumer(object):
         # Make sure all non-OpenID arguments in the response are also
         # in the signed return_to.
         bare_args = message.getArgs(BARE_NS)
-        for pair in bare_args.iteritems():
+        for pair in bare_args.items():
             if pair not in parsed_args:
                 raise ProtocolError("Parameter %s not in return_to URL" % (pair[0],))
 
@@ -1778,7 +1778,7 @@ class SuccessResponse(Response):
         """
         msg_args = self.message.getArgs(ns_uri)
 
-        for key in msg_args.iterkeys():
+        for key in msg_args.keys():
             if not self.isSigned(ns_uri, key):
                 logging.info("SuccessResponse.getSignedNS: (%s, %s) not signed."
                             % (ns_uri, key))

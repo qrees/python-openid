@@ -2,7 +2,7 @@
 
 import socket
 import os.path, unittest, sys, time
-from cStringIO import StringIO
+from io import StringIO
 
 import twill.commands, twill.parse, twill.unit
 
@@ -43,7 +43,7 @@ class TwillTest(twill.unit.TestInfo):
 def splitDir(d, count):
     # in python2.4 and above, it's easier to spell this as
     # d.rsplit(os.sep, count)
-    for i in xrange(count):
+    for i in range(count):
         d = os.path.dirname(d)
     return d
 
@@ -53,7 +53,7 @@ def runExampleServer(host, port, data_path):
     exampleDir = os.path.join(topDir, 'examples')
     serverExample = os.path.join(exampleDir, 'server.py')
     serverModule = {}
-    execfile(serverExample, serverModule)
+    exec(compile(open(serverExample).read(), serverExample, 'exec'), serverModule)
     serverMain = serverModule['main']
 
     serverMain(host, port, data_path)

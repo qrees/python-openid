@@ -11,7 +11,7 @@ import cgi
 import unittest
 import warnings
 
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 # In general, if you edit or add tests here, try to move in the direction
 # of testing smaller units.  For testing the external interfaces, we'll be
@@ -541,7 +541,7 @@ class TestEncode(unittest.TestCase):
         self.failIf(response.renderAsForm())
         self.failUnless(response.whichEncoding() == server.ENCODE_URL)
         webresponse = self.encode(response)
-        self.failUnless(webresponse.headers.has_key('location'))
+        self.failUnless('location' in webresponse.headers)
 
     def test_id_res_OpenID2_POST(self):
         """
@@ -662,7 +662,7 @@ class TestEncode(unittest.TestCase):
             })
         webresponse = self.encode(response)
         self.failUnlessEqual(webresponse.code, server.HTTP_REDIRECT)
-        self.failUnless(webresponse.headers.has_key('location'))
+        self.failUnless('location' in webresponse.headers)
 
         location = webresponse.headers['location']
         self.failUnless(location.startswith(request.return_to),
@@ -688,7 +688,7 @@ class TestEncode(unittest.TestCase):
             })
         webresponse = self.encode(response)
         self.failUnlessEqual(webresponse.code, server.HTTP_REDIRECT)
-        self.failUnless(webresponse.headers.has_key('location'))
+        self.failUnless('location' in webresponse.headers)
 
     def test_cancelToForm(self):
         request = server.CheckIDRequest(
@@ -790,7 +790,7 @@ class TestSigningEncode(unittest.TestCase):
         self.request.assoc_handle = assoc_handle
         webresponse = self.encode(self.response)
         self.failUnlessEqual(webresponse.code, server.HTTP_REDIRECT)
-        self.failUnless(webresponse.headers.has_key('location'))
+        self.failUnless('location' in webresponse.headers)
 
         location = webresponse.headers['location']
         query = cgi.parse_qs(urlparse(location)[4])
@@ -801,7 +801,7 @@ class TestSigningEncode(unittest.TestCase):
     def test_idresDumb(self):
         webresponse = self.encode(self.response)
         self.failUnlessEqual(webresponse.code, server.HTTP_REDIRECT)
-        self.failUnless(webresponse.headers.has_key('location'))
+        self.failUnless('location' in webresponse.headers)
 
         location = webresponse.headers['location']
         query = cgi.parse_qs(urlparse(location)[4])
@@ -826,7 +826,7 @@ class TestSigningEncode(unittest.TestCase):
         response.fields.setArg(OPENID_NS, 'mode', 'cancel')
         webresponse = self.encode(response)
         self.failUnlessEqual(webresponse.code, server.HTTP_REDIRECT)
-        self.failUnless(webresponse.headers.has_key('location'))
+        self.failUnless('location' in webresponse.headers)
         location = webresponse.headers['location']
         query = cgi.parse_qs(urlparse(location)[4])
         self.failIf('openid.sig' in query, response.fields.toPostArgs())
@@ -1139,15 +1139,15 @@ class TestCheckID(unittest.TestCase):
         self.failUnlessEqual(result.trust_root, 'http://real_trust_root/foo')
 
     def test_fromMessageWithEmptyTrustRoot(self):
-        return_to = u'http://someplace.invalid/?go=thing'
+        return_to = 'http://someplace.invalid/?go=thing'
         msg = Message.fromPostArgs({
-                u'openid.assoc_handle': u'{blah}{blah}{OZivdQ==}',
-                u'openid.claimed_id': u'http://delegated.invalid/',
-                u'openid.identity': u'http://op-local.example.com/',
-                u'openid.mode': u'checkid_setup',
-                u'openid.ns': u'http://openid.net/signon/1.0',
-                u'openid.return_to': return_to,
-                u'openid.trust_root': u''})
+                'openid.assoc_handle': '{blah}{blah}{OZivdQ==}',
+                'openid.claimed_id': 'http://delegated.invalid/',
+                'openid.identity': 'http://op-local.example.com/',
+                'openid.mode': 'checkid_setup',
+                'openid.ns': 'http://openid.net/signon/1.0',
+                'openid.return_to': return_to,
+                'openid.trust_root': ''})
 
         result = server.CheckIDRequest.fromMessage(msg, self.server.op_endpoint)
 

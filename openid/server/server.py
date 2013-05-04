@@ -1650,7 +1650,7 @@ class ProtocolError(Exception):
         self.openid_message = message
         self.reference = reference
         self.contact = contact
-        assert type(message) not in [str, unicode]
+        assert type(message) not in [str, str]
         Exception.__init__(self, text)
 
 
